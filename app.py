@@ -12,5 +12,19 @@ def index_view():
 
 	
 if __name__ == "__main__":
+    host = socket.gethostbyname(socket.gethostname())
+    port = 1999
+    if len(sys.argv) == 2:
+        host = sys.argv[1]
+    elif len(sys.argv) == 3:
+        if sys.argv[1] != '*':
+            host = sys.argv[1]
+        port = int(sys.argv[2])
+    elif len(sys.argv) > 3:
+        print('\n[+] - Too Many Parameters')
+        exit(1)
+
     print(f'\n\t ****  REC ANALYZER  ****\n')
-    app.run(host='localhost', port=7000, debug=True)
+    print(' * Host : ', host)
+    print(' * Port : ', port)
+    app.run(host=host, port=port, debug=True)
