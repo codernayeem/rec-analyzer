@@ -1,6 +1,7 @@
 from flask import Flask, Blueprint, render_template, redirect, request, session, Response, url_for
 from colorama import init, Fore, Back
 import socket, sys, config as cfg
+from tools import get_folders
 
 init()
 app = Flask(__name__, instance_relative_config=False, static_folder='.static', template_folder='.templates')
@@ -8,7 +9,8 @@ app = Flask(__name__, instance_relative_config=False, static_folder='.static', t
 
 @app.route('/')
 def index_view():
-    return render_template('index.html')
+    folders = sorted(get_folders('REC'))
+    return render_template('index.html', rec_names=folders, count=len(folders))
 
 	
 if __name__ == "__main__":
