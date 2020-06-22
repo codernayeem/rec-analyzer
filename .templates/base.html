@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{% block Title %}Rec Analyzer{% endblock %}</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base_style.css') }}">
+    {% block head %}
+    {% endblock %}
+</head>
+
+<body>
+    <div class="container-fluid p-0 mb-2">
+        <nav class="navbar navbar-expand-md bg-light navbar-light shadow">
+            <a class="navbar-brand" href="/" style="font-size: 155%;">{% block nav_title %}Rec Analyzer{% endblock %}</a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">
+                <ul class="nav nav-pills justify-content-center">
+                    <li class="nav-item">
+                        <a class="nav-link" id="nav-home" href="/">Home</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="container-fluid p-2">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <div class="container-fluid p-0">
+        <div class="jumbotron text-center" style="padding: 20px 15px; margin-bottom:0;">
+            <p style="margin-bottom:0;"><b>Powered</b> by @ <b>Nayeem</b></p>
+        </div>
+    </div>
+
+
+    <script>
+        var mainnav = "{% block activeNav %}{% endblock %}";
+        if (mainnav != "") {
+            document.getElementById(mainnav).classList.add("active");
+        }
+    </script>
+
+    <script src="{{ url_for('static', filename='bootstrap/js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+</body>
+
+</html>
