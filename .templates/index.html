@@ -11,7 +11,10 @@
     </div>
     <div class="card-body">
         {% if count == 0 %}
-        Nothing Found to show
+        <div class="alert alert-warning fade show">
+            <h5>Nothing found to show</h5>
+            <h6>Please, try again later</h6>
+        </div>
         {% else %}
         <div class="row">
         {% for i in rec_names%}
