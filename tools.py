@@ -5,6 +5,26 @@ from datetime import datetime
 import time, base64
 
 
+class AppData:
+    data = {
+        'rec_folder': 'REC',
+    }
+
+    def __init__(self):
+        self.create_rec_folder()
+
+    def create_rec_folder(self):
+        p = Path(self.get('rec_folder'))
+        if not (p.exists() and p.is_dir()):
+            p.mkdir()
+
+    def get(self, key, defult=None):
+        return self.data.get(key, defult)
+
+    def set_data(self, key, value):
+        self.data[key] = value
+        
+
 def get_splited_by_comma(s):
     if s:
         s = str(s).split(',')
