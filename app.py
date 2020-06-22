@@ -1,6 +1,6 @@
 from flask import Flask, Blueprint, render_template, redirect, request, session, Response, url_for
 from colorama import init, Fore, Back
-import socket, sys
+import socket, sys, config as cfg
 
 init()
 app = Flask(__name__, instance_relative_config=False, static_folder='.static', template_folder='.templates')
@@ -24,7 +24,7 @@ if __name__ == "__main__":
         print('\n[+] - Too Many Parameters')
         exit(1)
 
-    print(f'\n\t ****  REC ANALYZER  ****\n')
+    print(f'\n\t ****  REC ANALYZER v{cfg.VERSION}  ****\n')
     print(' * Host : ', host)
     print(' * Port : ', port)
     app.run(host=host, port=port, debug=True)
