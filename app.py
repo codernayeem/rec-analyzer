@@ -1,11 +1,16 @@
 from flask import Flask, Blueprint, render_template, redirect, request, session, Response, url_for
 from colorama import init, Fore, Back
 import socket, sys, config as cfg
-from tools import AppData, get_folders, join, sizeSince
+from tools import AppData, get_folders, join, sizeSince, encode64, decode64
 
 init()
 app = Flask(__name__, instance_relative_config=False, static_folder='.static', template_folder='.templates')
 appData = AppData()
+
+
+@app.context_processor
+def inject_common_data():
+    return dict(encode64=encode64, decode64=decode64, sizeSince=sizeSince)
 
 @app.route('/')
 def index_view():
