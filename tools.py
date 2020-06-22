@@ -1,4 +1,4 @@
-from os.path import join, isfile, isdir
+from os.path import join, isfile, isdir, getsize
 from os import listdir
 from pathlib import Path
 from datetime import datetime 
@@ -7,6 +7,11 @@ import time, base64
 
 class AppData:
     data = {
+        'folder_date_format': '%Y-%m-%d',
+        'show_date_format': '%d/%m/%Y',
+        'file_time_format': '%H-%M-%S',
+        'show_time_format': '%h:%M:%S %p',
+
         'rec_folder': 'REC',
     }
 
@@ -24,6 +29,33 @@ class AppData:
     def set_data(self, key, value):
         self.data[key] = value
         
+    def get_records(self, rec_name, wanted_date):
+        all_records= []
+
+        for i in get_files(join(self.get('rec_folder'), rec_name, wanted_date)):
+            splited = i.split('_')
+            if len(splited) == 4:
+                a_record = {}
+                a_record['file_path'] = join(self.get('rec_folder'), rec_name, wanted_date, i)
+                a_record['file_name'] = i
+                a_record['file_size'] = getsize(a_record['file_path'])
+                try:
+                    a_record['call_time_object'] = datetime.strptime(splited[1], self.get('file_time_format'))
+                except:
+                    continue
+                a_record['call_time'] = datetime.strftime(a_record['call_time_object'], self.get('show_time_format'))
+                a_record['call_type'] = splited[2]
+                a_record['call_number'] = splited[3].replace('+880', '0').replace('.amr', '').replace('.mp3', '').replace('.m4a', '').replace('.acc', '').replace('.ogg', '').replace('x', '*')
+                
+                all_records.append(a_record)
+        return all_records
+
+    def get_files_size(self, files):
+        i = 0
+        for ii in files:
+            i += ii['file_size']
+        return i
+
 
 def get_splited_by_comma(s):
     if s:
