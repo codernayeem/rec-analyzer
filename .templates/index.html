@@ -5,9 +5,30 @@
 
 {% block content %}
 
-
-<div>
-    Hello World
+<div class="card">
+    <div class="card-header" style="min-width: 300px;">
+        <h3 style="text-align: center;">Select a name</h3>
+    </div>
+    <div class="card-body">
+        {% if count == 0 %}
+        Nothing Found to show
+        {% else %}
+        <div class="row">
+        {% for i in rec_names%}
+        <div class="col-sm-4">
+            <p style="text-align: center;">
+            <a href="#" class="btn btn-primary p-2 text-black-50"><strong>{{i}}</strong></a>
+            </p>
+        </div>
+        {% endfor %}
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="d-flex justify-content-center links">
+        Click a name to start Rec Analyzer
+        </div>
+    </div>
+    {% endif %}
 </div>
 
 
