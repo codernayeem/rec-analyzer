@@ -1,0 +1,36 @@
+{% extends "base.html" %} 
+{% block activeNav %}nav-home{% endblock %} 
+{% block Title %}Records Map | Rec Analyzer{% endblock %}
+
+{% block content %} 
+
+<div class="card">
+  <div class="card-header" style="min-width: 300px;">
+    <h4 style="text-align: center;">{{ rec_name }}'s Call Records</h4>
+  </div>
+  <div class="card-body">
+    {% if count == 0 %}
+    <div class="alert alert-warning fade show">
+      <h5>Nothing found to show</h5>
+      <h6>Please, try again later</h6>
+    </div>
+    {% else %}
+    <div class="row">
+    {% for i in all_dates%}
+      <div class="col-sm-4">
+        <p style="text-align: center;">
+          <a href="#" class="btn btn-primary p-2 text-black-50"><strong>{{i}}</strong></a>
+        </p>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="d-flex justify-content-center links">
+      Select a date to see records
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+{% endblock %}
