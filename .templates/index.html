@@ -7,7 +7,7 @@
 
 <div class="card">
     <div class="card-header" style="min-width: 300px;">
-        <h3 style="text-align: center;">Select a name</h3>
+        <h4 style="text-align: center;">Select a name</h4>
     </div>
     <div class="card-body">
         {% if count == 0 %}
@@ -20,7 +20,7 @@
         {% for i in rec_names%}
         <div class="col-sm-4">
             <p style="text-align: center;">
-            <a href="#" class="btn btn-primary p-2 text-black-50"><strong>{{i}}</strong></a>
+            <a href="/map/{{i}}" class="btn btn-primary p-2 text-black-50"><strong>{{i}}</strong></a>
             </p>
         </div>
         {% endfor %}
