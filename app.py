@@ -1,7 +1,7 @@
-from flask import Flask, Blueprint, render_template, redirect, request, session, Response, url_for
+from flask import Flask, Blueprint, render_template, redirect, request, session, Response, url_for, send_from_directory
 from colorama import init, Fore, Back
 import socket, sys, config as cfg
-from tools import AppData, get_folders, join, sizeSince, encode64, decode64
+from tools import AppData, get_folders, join, sizeSince, encode64, decode64, is_valid_file
 from functools import wraps
 
 init()
@@ -31,7 +31,7 @@ def login_page():
         if error:
             session['error_login'] = None
         return render_template('login.html', error=error)
-        
+
     if appData.check_password(request.form.get('password')):
         session['logged_in'] = True
         return redirect(request.args.get('next') or '/')
@@ -80,6 +80,18 @@ def map_go_view(rec_name, rec_date=None):
             return redirect('/map/'+rec_name)
 
     return render_template('map.html', rec_name=rec_name, all_dates=all_dates, count=len(all_dates))
+
+@app.route('/file')
+def download_view():
+    if not session.get('logged_in'):
+        return Response(status=403)
+    try:
+        fl, name, date = request.args.get('fl'), request.args.get('name'), request.args.get('date')
+        if fl and name and date and is_valid_file(join(appData.get('rec_folder'), name, date, fl)):
+            return send_from_directory(join(appData.get('rec_folder'), name, date), fl, as_attachment=True)
+    except:
+        pass
+    return Response(status=404)
 
 if __name__ == "__main__":
     host = socket.gethostbyname(socket.gethostname())
