@@ -1,4 +1,4 @@
-from os.path import join, isfile, isdir, getsize
+from os.path import join, isfile, isdir, getsize, sep
 from os import listdir
 from pathlib import Path
 from datetime import datetime 
@@ -12,17 +12,12 @@ class AppData:
         'file_time_format': '%H-%M-%S',
         'show_time_format': '%h:%M:%S %p',
 
-        'rec_folder': 'REC',
+        'rec_folder': join('DATA', 'REC'),
         'password': '123' # default password
     }
 
     def __init__(self):
-        self.create_rec_folder()
-
-    def create_rec_folder(self):
-        p = Path(self.get('rec_folder'))
-        if not (p.exists() and p.is_dir()):
-            p.mkdir()
+        create_folder(self.get('rec_folder'))
 
     def get(self, key, defult=None):
         return self.data.get(key, defult)
@@ -59,6 +54,16 @@ class AppData:
 
     def check_password(self, ps):
         return self.data['password'] == str(ps)
+
+
+def create_folder(pth):
+    s = ''
+    for i in pth.split(sep):
+        s = join(s, i)
+        try:
+            Path(s).mkdir()
+        except:
+            pass
 
 
 def get_splited_by_comma(s):
