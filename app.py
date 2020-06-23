@@ -12,7 +12,7 @@ appData = AppData()
 
 @app.context_processor
 def inject_common_data():
-    return dict(encode64=encode64, decode64=decode64, sizeSince=sizeSince)
+    return dict(encode64=encode64, decode64=decode64, sizeSince=sizeSince, logged_in=session.get('logged_in'))
 
 def login_required(func):
     @wraps(func)
