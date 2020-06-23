@@ -10,7 +10,7 @@ class AppData:
         'folder_date_format': '%Y-%m-%d',
         'show_date_format': '%d/%m/%Y',
         'file_time_format': '%H-%M-%S',
-        'show_time_format': '%h:%M:%S %p',
+        'show_time_format': '%I:%M:%S %p',
 
         'rec_folder': join('DATA', 'REC'),
         'password': '123' # default password
