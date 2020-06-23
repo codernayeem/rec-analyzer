@@ -2,6 +2,7 @@ from flask import Flask, Blueprint, render_template, redirect, request, session,
 from colorama import init, Fore, Back
 import socket, sys, config as cfg
 from tools import AppData, get_folders, join, sizeSince, encode64, decode64
+from functools import wraps
 
 init()
 app = Flask(__name__, instance_relative_config=False, static_folder='.static', template_folder='.templates')
@@ -12,6 +13,14 @@ appData = AppData()
 @app.context_processor
 def inject_common_data():
     return dict(encode64=encode64, decode64=decode64, sizeSince=sizeSince)
+
+def login_required(func):
+    @wraps(func)
+    def decorated_view(*args, **kwargs):
+        if session.get('logged_in'):
+            return func(*args, **kwargs)
+        return redirect('/login')
+    return decorated_view
 
 @app.route('/login')
 def login_page():
@@ -34,6 +43,7 @@ def login():
     return redirect('/login')
 
 @app.route('/')
+@login_required
 def index_view():
     global appData
     folders = sorted(get_folders(appData.get('rec_folder')))
@@ -41,6 +51,7 @@ def index_view():
 
 @app.route('/map/<rec_name>/')
 @app.route('/map/<rec_name>/<rec_date>')
+@login_required
 def map_go_view(rec_name, rec_date=None):
     global appData
     rec_folder = appData.get('rec_folder')
