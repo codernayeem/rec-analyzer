@@ -42,13 +42,13 @@
         <img src="{% if i.call_type == 'IN' %}{{ url_for('static', filename='ic_in.png') }} {%else%}{{ url_for('static', filename='ic_out.png') }} {%endif%}" alt="out" style="height: 22px; width: 22px; margin-right: 10px;">
       </div>
       <div class="float-left p-2">
-        <a title="{{i.file_name}}" onclick="playRec('#')"><img src="{{ url_for('static', filename='play.png') }}" alt="play" style="height: 20px; width: 20px;" data-toggle="modal" data-target="#playmodal"></a>
+        <a title="{{i.file_name}}" onclick="playRec('{{ url_for('download_view', fl=i.file_name, name=rec_name, date=date) }}');" title="{{i.file_name}}')"><img src="{{ url_for('static', filename='play.png') }}" alt="play" style="height: 20px; width: 20px;" data-toggle="modal" data-target="#playmodal"></a>
       </div>
       <div class="float-left p-2">
         <p class="m-0">{{ i.call_time}}</p>
       </div>
       <div class="float-left p-2">
-        <a href="#" title="{{i.file_name}}"><img src="{{ url_for('static', filename='ic_download.png') }}" alt="Download" style="height: 20px; width: 20px;"></a>
+        <a href="{{ url_for('download_view', fl=i.file_name, name=rec_name, date=date) }}" title="{{i.file_name}}"><img src="{{ url_for('static', filename='ic_download.png') }}" alt="Download" style="height: 20px; width: 20px;"></a>
       </div>
       <div class="float-left p-2">
         <p class="m-0" style="font-family: sans-serif" title="{{ i.call_number}}"><strong>{{ i.call_number}}</strong></p>
@@ -84,7 +84,7 @@
     <h3 style="text-align: center; font-size: 22px;"><a href="/map/{{ rec_name }}">{{ rec_name }}</a>'s Call Records</h3>
   </div>
 
-  <div class="modal fade" id="playmodal" tabindex="-1" role="dialog" aria-labelledby="playModalLabel" aria-hidden="true">
+  <div class="modal" id="playmodal" tabindex="-1" role="dialog" aria-labelledby="playModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
         <div class="modal-header">
