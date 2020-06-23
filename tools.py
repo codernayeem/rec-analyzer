@@ -13,6 +13,7 @@ class AppData:
         'show_time_format': '%h:%M:%S %p',
 
         'rec_folder': 'REC',
+        'password': '123' # default password
     }
 
     def __init__(self):
@@ -55,6 +56,9 @@ class AppData:
         for ii in files:
             i += ii['file_size']
         return i
+
+    def check_password(self, ps):
+        return self.data['password'] == str(ps)
 
 
 def get_splited_by_comma(s):
