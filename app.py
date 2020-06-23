@@ -21,6 +21,17 @@ def login_page():
         session['error_login'] = None
     return render_template('login.html', error=error)
 
+@app.route('/login', methods=['POST'])
+def login():
+    if session.get('logged_in'):
+        return redirect(request.args.get('next') or '/')
+    if request.form.get('data') == '123':
+        session['logged_in'] = True
+        return redirect(request.args.get('next') or '/')
+
+    session['error_login'] = 'Incorrect username or password'
+    return redirect('/login')
+
 @app.route('/')
 def index_view():
     global appData
