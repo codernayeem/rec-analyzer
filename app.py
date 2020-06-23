@@ -26,7 +26,7 @@ def login_page():
 def login():
     if session.get('logged_in'):
         return redirect(request.args.get('next') or '/')
-    if request.form.get('data') == '123':
+    if request.form.get('password') == '123':
         session['logged_in'] = True
         return redirect(request.args.get('next') or '/')
 
