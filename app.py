@@ -5,6 +5,7 @@ from tools import AppData, get_folders, join, sizeSince, encode64, decode64
 
 init()
 app = Flask(__name__, instance_relative_config=False, static_folder='.static', template_folder='.templates')
+app.config.from_object('config.Config')
 appData = AppData()
 
 
