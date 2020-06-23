@@ -5,85 +5,111 @@
 {% block content %} 
 
 <div class="card">
-    <div class="card-header">
-      <h3 style="text-align: center; font-size: 22px;"><a href="/map/{{rec_name}}">{{ rec_name }}</a>'s Call Records</h3>
-    </div>
-    <div class="card-footer">
-      <div class="row">
-        <div class="col-sm-4">
-          {% if old_date %}
-          <p style="text-align: left; margin-bottom: 0;"><a class="btn btn-primary" href="/map/{{rec_name}}/{{old_date}}">◀ {{ old_date }}</a></p>
-          {%endif%}
-        </div>
-        <div class="col-sm-4">
-          <p style="text-align: center; margin-bottom: 0; font-size: 18px;"><b>{{ date }}</b></p>
-        </div>
-        <div class="col-sm-4">
-          {% if next_date %}
-            <p style="text-align: right; margin-bottom: 0;"><a class="btn btn-primary" href="/map/{{rec_name}}/{{next_date}}">{{ next_date }} ▶</a></p>
-          {%endif%}
-        </div>
+  <div class="card-header">
+    <h3 style="text-align: center; font-size: 22px;"><a href="/map/{{rec_name}}">{{ rec_name }}</a>'s Call Records</h3>
+  </div>
+  <div class="card-footer">
+    <div class="row">
+      <div class="col-sm-4">
+        {% if old_date %}
+        <p style="text-align: left; margin-bottom: 0;"><a class="btn btn-primary" href="/map/{{rec_name}}/{{old_date}}">◀ {{ old_date }}</a></p>
+        {%endif%}
+      </div>
+      <div class="col-sm-4">
+        <p style="text-align: center; margin-bottom: 0; font-size: 18px;"><b>{{ date }}</b></p>
+      </div>
+      <div class="col-sm-4">
+        {% if next_date %}
+          <p style="text-align: right; margin-bottom: 0;"><a class="btn btn-primary" href="/map/{{rec_name}}/{{next_date}}">{{ next_date }} ▶</a></p>
+        {%endif%}
       </div>
     </div>
   </div>
-  
-  
-  <div class="card p-2">
-    {% if total == 0 %}
-    <div class="alert alert-warning fade show">
-      <h5>No Records found</h5>
-      <h6>Zero records found for that day</h6>
+</div>
+
+<div class="card p-2">
+  {% if total == 0 %}
+  <div class="alert alert-warning fade show">
+    <h5>No Records found</h5>
+    <h6>Zero records found for that day</h6>
+  </div>
+  {% else %}
+
+  {% for i in records %}
+  <div class="card rec_card mb-2">
+    <div class="p-2">
+      <div class="float-left p-2">
+        <img src="{% if i.call_type == 'IN' %}{{ url_for('static', filename='ic_in.png') }} {%else%}{{ url_for('static', filename='ic_out.png') }} {%endif%}" alt="out" style="height: 22px; width: 22px; margin-right: 10px;">
+      </div>
+      <div class="float-left p-2">
+        <a title="{{i.file_name}}" onclick="playRec('#')"><img src="{{ url_for('static', filename='play.png') }}" alt="play" style="height: 20px; width: 20px;" data-toggle="modal" data-target="#playmodal"></a>
+      </div>
+      <div class="float-left p-2">
+        <p class="m-0">{{ i.call_time}}</p>
+      </div>
+      <div class="float-left p-2">
+        <a href="#" title="{{i.file_name}}"><img src="{{ url_for('static', filename='ic_download.png') }}" alt="Download" style="height: 20px; width: 20px;"></a>
+      </div>
+      <div class="float-left p-2">
+        <p class="m-0" style="font-family: sans-serif" title="{{ i.call_number}}"><strong>{{ i.call_number}}</strong></p>
+      </div>
+
     </div>
-    {% else %}
+  </div>
+  {%endfor%}
   
-    {% for i in records %}
-    <div class="card rec_card mb-2">
-      <div class="p-2">
-        <div class="float-left m-2">
-          <img src="{% if i.call_type == 'IN' %}{{ url_for('static', filename='ic_in.png') }} {%else%}{{ url_for('static', filename='ic_out.png') }} {%endif%}" alt="out" style="height: 22px; width: 22px; margin-right: 10px;">
-        </div>
-        <div class="p-1">
-          <audio src="#" style="width: 80%;" controls></audio>
-        </div>
-        <div class="float-left p-2">
-          <p>{{ i.call_time}}</p>
-        </div>
-        <div class="float-left p-2">
-          <a href="#" title="{{i.file_name}}"><img src="{{ url_for('static', filename='ic_download.png') }}" alt="Download" style="height: 20px; width: 20px;"></a>
-        </div>
-        <div class="float-left p-2">
-          <p style="font-family: sans-serif" title="{{ i.call_number}}"><strong>{{ i.call_number}}</strong></p>
-        </div>
+  <div class="card-footer mt-2">
+    <div class="d-flex justify-content-center links">
+      Count : {{total}} | Total Size : {{sizeSince(size)}}
+    </div>
+  </div>
   
+  <div class="card-footer">
+    <div class="row">
+      <div class="col-sm-4">
+        {% if old_date %}
+        <p style="text-align: left; margin-bottom: 0;"><a class="btn btn-primary" href="/map/{{ rec_name }}/{{ old_date }}">◀ {{ old_date }}</a></p>
+        {%endif%}
+      </div>
+      <div class="col-sm-4">
+        <p style="text-align: center; margin-bottom: 0; font-size: 18px;"><b>{{ date }}</b></p>
+      </div>
+      <div class="col-sm-4">
+        {% if next_date %}
+          <p style="text-align: right; margin-bottom: 0;"><a class="btn btn-primary" href="/map/{{ rec_name }}/{{ next_date }}">{{ next_date }} ▶</a></p>
+        {%endif%}
       </div>
     </div>
-    {%endfor%}
-    
-    <div class="card-footer mt-2">
-      <div class="d-flex justify-content-center links">
-        Count : {{total}} | Total Size : {{sizeSince(size)}}
-      </div>
+    <hr>
+    <h3 style="text-align: center; font-size: 22px;"><a href="/map/{{ rec_name }}">{{ rec_name }}</a>'s Call Records</h3>
+  </div>
+
+  <div class="modal fade" id="playmodal" tabindex="-1" role="dialog" aria-labelledby="playModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="playModalLabel">Player</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <audio id="play_src" controls></audio>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        </div>
     </div>
-    
-    <div class="card-footer">
-      <div class="row">
-        <div class="col-sm-4">
-          {% if old_date %}
-          <p style="text-align: left; margin-bottom: 0;"><a class="btn btn-primary" href="/map/{{ rec_name }}/{{ old_date }}">◀ {{ old_date }}</a></p>
-          {%endif%}
-        </div>
-        <div class="col-sm-4">
-          <p style="text-align: center; margin-bottom: 0; font-size: 18px;"><b>{{ date }}</b></p>
-        </div>
-        <div class="col-sm-4">
-          {% if next_date %}
-            <p style="text-align: right; margin-bottom: 0;"><a class="btn btn-primary" href="/map/{{ rec_name }}/{{ next_date }}">{{ next_date }} ▶</a></p>
-          {%endif%}
-        </div>
-      </div>
-      <hr>
-      <h3 style="text-align: center; font-size: 22px;"><a href="/map/{{ rec_name }}">{{ rec_name }}</a>'s Call Records</h3>
-    </div>
-  
-    {% endif %} 
+  </div>
+</div>
+
+<script>
+  function playRec(link){
+    document.getElementById("play_src").setAttribute('src', link)
+  }
+</script>
+
+{% endif %}
+
 {% endblock %}
