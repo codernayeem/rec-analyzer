@@ -1,0 +1,65 @@
+.container {
+  align-content: center;
+  font-family: "Numans", sans-serif;
+}
+
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.auth_card {
+  margin-top: auto;
+  margin-bottom: auto;
+  background: rgba(0, 123, 255, 0.71) !important;
+}
+
+.auth_card-header h3 {
+  color: white;
+}
+
+.input-group-prepend span {
+  background-color: #ffc312;
+  color: black;
+  border: 0 !important;
+}
+
+input:focus {
+  outline: 0 0 0 0 !important;
+  box-shadow: 0 0 0 0 !important;
+}
+
+.remember {
+  color: white;
+}
+
+.remember input {
+  width: 20px;
+  height: 20px;
+  margin-left: 15px;
+  margin-right: 5px;
+}
+
+.login_btn {
+  color: black;
+  background-color: #ffc312;
+  width: 100px;
+}
+
+.login_btn:hover {
+  color: black;
+  background-color: white;
+}
+
+.links {
+  color: white;
+}
+
+.links a {
+  margin-left: 4px;
+  color: rgb(255, 219, 0);
+}
