@@ -12,6 +12,15 @@ appData = AppData()
 def inject_common_data():
     return dict(encode64=encode64, decode64=decode64, sizeSince=sizeSince)
 
+@app.route('/login')
+def login_page():
+    if session.get('logged_in'):
+        return redirect(request.args.get('next') or '/')
+    error = session.get('error_login')
+    if error:
+        session['error_login'] = None
+    return render_template('login.html', error=error)
+
 @app.route('/')
 def index_view():
     global appData
