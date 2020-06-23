@@ -42,6 +42,12 @@ def login():
     session['error_login'] = 'Incorrect username or password'
     return redirect('/login')
 
+@app.route("/logout")
+@login_required
+def logout():
+    session['logged_in'] = False
+    return redirect('/login')
+
 @app.route('/')
 @login_required
 def index_view():
