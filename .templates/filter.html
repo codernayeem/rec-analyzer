@@ -1,0 +1,106 @@
+{% extends "base.html" %} 
+{% block activeNav %}nav-filter{% endblock %} 
+{% block Title %}Filter Records | Rec Analyzer{% endblock %}
+
+
+{% block content %} 
+
+<div class="card">
+  <div class="card-header">
+    <h4 class="text-center">Filter</h4>
+  </div>
+  <div class="card-body">
+    <form method="POST" action="/filter_result">
+      {% if error %}
+      <div class="alert alert-danger alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ error }}
+      </div>
+      {% endif %}
+
+      <div class="row mt-2">
+        <div class="col-5">
+          <p>Target :</p>
+        </div>
+        <div class="col-7">
+          {% if rec_name_count == 0 %}
+          <p style="color: red;">No Target avaiable</p>
+          {% else %}
+          <select class="custom-select" name="target">
+            {% for i in rec_names%}
+            <option value="{{i}}">{{i}}</option>
+            {% endfor %}
+          </select>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="row mt-2">
+        <div class="col-5">
+          <p>Call Type :</p>
+        </div>
+        <div class="col-7">
+          <select class="custom-select"  name="call_type">
+            <option value="0">Both</option>
+            <option value="1">Incoming</option>
+            <option value="2">Outgoing</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row mt-2">
+        <div class="col-5">
+          <p>Date Start :</p>
+        </div>
+        <div class="col-7">
+          <input type="date" class="input-group-text" placeholder="Date" name="date_start" />
+        </div>
+      </div>
+
+      <div class="row mt-2">
+        <div class="col-5">
+          <p>Date End :</p>
+        </div>
+        <div class="col-7">
+          <input type="date" class="input-group-text" placeholder="Date" name="date_end" />
+        </div>
+      </div>
+
+      <div class="row mt-2">
+        <div class="col-5">
+          <p>Time Start :</p>
+        </div>
+        <div class="col-7">
+          <input type="time" class="input-group-text" placeholder="Time" name="time_start" />
+        </div>
+      </div>
+
+      <div class="row mt-2">
+        <div class="col-5">
+          <p>Time End :</p>
+        </div>
+        <div class="col-7">
+          <input type="time" class="input-group-text" placeholder="Time" name="time_end" />
+        </div>
+      </div>
+
+      <div class="row mt-2">
+        <div class="col-sm-5">
+          <label for="call_numbers">Call Numbers :</label>
+        </div>
+        <div class="col-sm-7">
+          <input class="input-group-text w-100 text-left" type="text" name="call_numbers" id="call_numbers" />
+          <p>You can put more than one number by separating them with <b>comma</b> (<b> , </b>).</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="float-right m-2">
+          <input type="submit" class="btn btn-primary font-weight-bold" style="width: 80px;" value="Go" {% if rec_name_count == 0 %}disabled{% endif %}></input>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
