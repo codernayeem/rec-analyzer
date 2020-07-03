@@ -81,6 +81,17 @@ def map_go_view(rec_name, rec_date=None):
 
     return render_template('map.html', rec_name=rec_name, all_dates=all_dates, count=len(all_dates))
 
+@app.route('/filter')
+@login_required
+def filter_view():
+    rec_names = sorted(get_folders(appData.get('rec_folder')))
+
+    error = session.get('error_filter')
+    if error:
+        session['error_filter'] = None
+
+    return render_template('filter.html', rec_names=rec_names, rec_name_count=len(rec_names), error=error)
+
 @app.route('/file')
 def download_view():
     if not session.get('logged_in'):
