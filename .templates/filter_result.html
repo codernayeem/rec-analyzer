@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block activeNav %}nav-filter{% endblock %}
+{% block Title %}Filter Result | Rec Analyzer{% endblock %}
+
+{% block content %} 
+
+<div class="card">
+  <div class="card-header">
+    <h4 class="text-center" style="font-size: 22px;">Filter on <a href="/map/{{ rec_name }}">{{ rec_name }}</a>'s Call Records</h4>
+  </div>
+  <div class="card-footer">
+    <div class="row">
+      <div class="col-12 col-sm-4 text-left">
+        {% if c_page != 1 %}
+        <span><a class="btn btn-sm btn-primary" href="{{ url_for('filter_result_view', filter_data=filter_code, page=c_page-1) }}">◀ Page {{c_page-1}}</a></span>
+        {%endif%}
+      </div>
+      <div class="col-12 col-sm-4 text-center my-auto">
+        <span style="font-size: 17px;"><b>Page {{c_page}}/{{total_page}}</b></span>
+      </div>
+      <div class="col-12 col-sm-4 text-right">
+        {% if c_page != total_page %}
+        <span><a class="btn btn-sm btn-primary" href="{{ url_for('filter_result_view', filter_data=filter_code, page=c_page+1) }}">Page {{c_page+1}} ▶</a></span>
+        {%endif%}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="card p-2">
+
+  {% for i in records %}
+  <div class="card mb-2">
+    <div class="row p-2">
+      <div class="col-12 col-lg-5">
+        <div class="row">
+          <div class="col-2 col-md-1 my-auto">
+            <img src="{% if i.call_type == 'IN' %}{{ url_for('static', filename='ic_in.png') }} {%else%}{{ url_for('static', filename='ic_out.png') }} {%endif%}" alt="out" style="height: 22px; width: 22px; margin-right: 10px;">
+          </div>
+          <div class="col-10 col-md-11">
+            <audio class="w-100" src="{{ url_for('download_view', fl=i.file_name, name=rec_name, date=i.call_date) }}" controls></audio>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-sm-3 col-lg-2 my-auto text-sm-center">
+        <p class="m-0">{{ i.call_date}}</p>
+      </div>
+      <div class="col-6 col-sm-3 col-lg-2 m-auto text-left text-sm-center">
+        <p class="m-0">{{ i.call_time}}</p>
+      </div>
+      <div class="col-10 col-sm-3 col-lg-2 my-auto text-sm-center">
+        <p class="m-0" style="font-weight: 500;">{{ i.call_number}}</p>
+      </div>
+      <div class="col-2 col-sm-3 col-lg-1 my-auto py-2 text-center">
+        <a href="{{ url_for('download_view', fl=i.file_name, name=rec_name, date=i.call_date) }}" title="{{i.file_name}}"><img src="{{ url_for('static', filename='ic_download.png') }}" alt="Download" style="height: 20px; width: 20px;"></a>
+      </div>
+    </div>
+  </div>
+  {%endfor%}
+  
+  <div class="card-footer mt-2">
+    <div class="d-flex justify-content-center">
+      Count : {{total_count}} | Total Size : {{sizeSince(total_size)}}
+    </div>
+    <div class="d-flex justify-content-center">
+      <p class="mb-0 mt-2">Goto Page :
+          {% for i in range(1, total_page+1) %}
+          <span><a href="{{ url_for('filter_result_view', filter_data=filter_code, page=i) }}"><b>{{i}}</b></a></span>
+          {% endfor %}
+      </p>
+      
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}
