@@ -10,17 +10,17 @@
   </div>
   <div class="card-footer">
     <div class="row">
-      <div class="col-sm-4">
+      <div class="col-12 col-sm-4 text-left">
         {% if old_date %}
-        <p style="text-align: left; margin-bottom: 0;"><a class="btn btn-primary" href="/map/{{rec_name}}/{{old_date}}">◀ {{ old_date }}</a></p>
+        <span><a class="btn btn-sm btn-primary" href="/map/{{rec_name}}/{{old_date}}">◀ {{ old_date }}</a></span>
         {%endif%}
       </div>
-      <div class="col-sm-4">
-        <p style="text-align: center; margin-bottom: 0; font-size: 18px;"><b>{{ date }}</b></p>
+      <div class="col-12 col-sm-4 text-center my-auto">
+        <span style="font-size: 17px;"><b>{{ date }}</b></span>
       </div>
-      <div class="col-sm-4">
+      <div class="col-12 col-sm-4 text-right">
         {% if next_date %}
-          <p style="text-align: right; margin-bottom: 0;"><a class="btn btn-primary" href="/map/{{rec_name}}/{{next_date}}">{{ next_date }} ▶</a></p>
+        <span><a class="btn btn-sm btn-primary" href="/map/{{rec_name}}/{{next_date}}">{{ next_date }} ▶</a></span>
         {%endif%}
       </div>
     </div>
@@ -36,7 +36,7 @@
   {% else %}
 
   {% for i in records %}
-  <div class="card rec_card mb-2">
+  <div class="card mb-2">
     <div class="row p-2">
       <div class="col-12 col-lg-7">
         <div class="row">
@@ -48,13 +48,13 @@
           </div>
         </div>
       </div>
-      <div class="col-5 col-lg-2 m-auto">
+      <div class="col-5 col-lg-2 my-auto text-lg-center">
         <p class="m-0">{{ i.call_time}}</p>
       </div>
-      <div class="col-5 col-lg-2 m-auto p-2">
+      <div class="col-5 col-lg-2 my-auto p-2 text-lg-center">
         <p class="m-0" style="font-weight: 500;">{{ i.call_number}}</p>
       </div>
-      <div class="col-2 col-lg-1 m-auto p-2">
+      <div class="col-2 col-lg-1 m-auto p-2 text-center">
         <a href="{{ url_for('download_view', fl=i.file_name, name=rec_name, date=date) }}" title="{{i.file_name}}"><img src="{{ url_for('static', filename='ic_download.png') }}" alt="Download" style="height: 20px; width: 20px;"></a>
       </div>
     </div>
@@ -69,17 +69,17 @@
   
   <div class="card-footer">
     <div class="row">
-      <div class="col-sm-4">
+      <div class="col-12 col-sm-4 text-left">
         {% if old_date %}
-        <p style="text-align: left; margin-bottom: 0;"><a class="btn btn-primary" href="/map/{{ rec_name }}/{{ old_date }}">◀ {{ old_date }}</a></p>
+        <span><a class="btn btn-sm btn-primary" href="/map/{{rec_name}}/{{old_date}}">◀ {{ old_date }}</a></span>
         {%endif%}
       </div>
-      <div class="col-sm-4">
-        <p style="text-align: center; margin-bottom: 0; font-size: 18px;"><b>{{ date }}</b></p>
+      <div class="col-12 col-sm-4 text-center my-auto">
+        <span style="font-size: 17px;"><b>{{ date }}</b></span>
       </div>
-      <div class="col-sm-4">
+      <div class="col-12 col-sm-4 text-right">
         {% if next_date %}
-        <p style="text-align: right; margin-bottom: 0;"><a class="btn btn-primary" href="/map/{{ rec_name }}/{{ next_date }}">{{ next_date }} ▶</a></p>
+        <span><a class="btn btn-sm btn-primary" href="/map/{{rec_name}}/{{next_date}}">{{ next_date }} ▶</a></span>
         {%endif%}
       </div>
     </div>
