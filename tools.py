@@ -46,6 +46,42 @@ class AppData:
                 all_records.append(a_record)
         return all_records
 
+    def get_filtered_records(self, rec_name, call_type, date_start, date_end, time_start, time_end, call_numbers):
+        all_dates = sorted(get_folders(join(self.get('rec_folder'), rec_name)))
+
+        date_start = get_valid_datetime(date_start, '%Y-%m-%d')
+        date_end = get_valid_datetime(date_end, '%Y-%m-%d')
+        time_start = get_valid_datetime(time_start, '%H:%M')
+        time_end = get_valid_datetime(time_end, '%H:%M')
+
+
+        if not date_start and not date_end:
+            wanted_dates = all_dates
+        else:
+            wanted_dates = []
+            for i in all_dates:
+                i_date = get_valid_datetime(i, self.get('folder_time_format'))
+                if i_date:
+                    if not ((date_start and date_start > i_date) or (date_end and date_end < i_date)):
+                        wanted_dates.append(i)
+
+        all_records = []
+
+        for i_date in wanted_dates:
+            for i in self.get_records(rec_name, i_date):
+                if (call_type == '1' and i['call_type'] == 'OUT') or (call_type == '2' and i['call_type'] == 'IN'):
+                    continue
+                if call_numbers and i['call_number'] not in call_numbers:
+                    continue
+                if time_start or time_end:
+                    if (time_start and time_start > i['call_time_object']) or (time_end and time_end < i['call_time_object']):
+                        continue
+
+                i['call_date'] = i_date
+                all_records.append(i)
+
+        return all_records
+
     def get_files_size(self, files):
         i = 0
         for ii in files:
@@ -54,6 +90,13 @@ class AppData:
 
     def check_password(self, ps):
         return self.data['password'] == str(ps)
+
+
+def get_valid_datetime(datetime_string, _format):
+    try:
+        return datetime.strptime(datetime_string, _format)
+    except:
+        return None
 
 
 def create_folder(pth):
