@@ -60,7 +60,7 @@ class AppData:
         else:
             wanted_dates = []
             for i in all_dates:
-                i_date = get_valid_datetime(i, self.get('folder_time_format'))
+                i_date = get_valid_datetime(i, self.get('folder_date_format'))
                 if i_date:
                     if not ((date_start and date_start > i_date) or (date_end and date_end < i_date)):
                         wanted_dates.append(i)
