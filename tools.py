@@ -89,7 +89,7 @@ class AppData:
         return i
 
     def check_password(self, ps):
-        return self.data['password'] == str(ps)
+        return self.data['password'] == ps
 
 
 def get_valid_datetime(datetime_string, _format):
