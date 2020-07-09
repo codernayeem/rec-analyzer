@@ -28,7 +28,7 @@
           {% else %}
           <select class="custom-select" name="target">
             {% for i in rec_names%}
-            <option value="{{i}}">{{i}}</option>
+            <option value="{{encode64(i)}}">{{i}}</option>
             {% endfor %}
           </select>
           {% endif %}

@@ -19,7 +19,7 @@
         <div class="row">
         {% for i in rec_names%}
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3 text-center">
-          <a href="/map/{{i}}" class="btn btn-info text-black-50 font-weight-bold">{{i}}</a>
+          <a href="/map/{{encode64(i)}}" class="btn btn-info text-black-50 font-weight-bold">{{i}}</a>
         </div>
         {% endfor %}
         </div>

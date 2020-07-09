@@ -6,7 +6,7 @@
 
 <div class="card">
   <div class="card-header">
-    <h4 class="text-center" style="font-size: 22px;">Filter on <a href="/map/{{ rec_name }}">{{ rec_name }}</a>'s Call Records</h4>
+    <h4 class="text-center" style="font-size: 22px;">Filter on <a href="/map/{{ encode64(rec_name) }}">{{ rec_name }}</a>'s Call Records</h4>
   </div>
   <div class="card-footer">
     <div class="row">
@@ -39,7 +39,7 @@
             <img src="{% if i.call_type == 'IN' %}{{ url_for('static', filename='ic_in.png') }} {%else%}{{ url_for('static', filename='ic_out.png') }} {%endif%}" alt="out" style="height: 22px; width: 22px; margin-right: 10px;">
           </div>
           <div class="col-10 col-sm-11">
-            <audio class="w-100" src="{{ url_for('download_view', fl=i.file_name, name=rec_name, date=i.call_date) }}" controls></audio>
+            <audio class="w-100" src="{{ url_for('download_view', fl=encode64(i.file_name), name=encode64(rec_name), date=encode64(i.call_date)) }}" controls></audio>
           </div>
         </div>
       </div>
@@ -53,7 +53,7 @@
         <p class="m-0" style="font-weight: 500;">{{ i.call_number}}</p>
       </div>
       <div class="col-2 col-sm-3 col-lg-1 my-auto py-2 text-center">
-        <a href="{{ url_for('download_view', fl=i.file_name, name=rec_name, date=i.call_date) }}" title="{{i.file_name}}"><img src="{{ url_for('static', filename='ic_download.png') }}" alt="Download" style="height: 20px; width: 20px;"></a>
+        <a href="{{ url_for('download_view', fl=encode64(i.file_name), name=encode64(rec_name), date=encode64(i.call_date)) }}" title="{{i.file_name}}"><img src="{{ url_for('static', filename='ic_download.png') }}" alt="Download" style="height: 20px; width: 20px;"></a>
       </div>
     </div>
   </div>

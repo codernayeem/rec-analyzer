@@ -6,13 +6,13 @@
 
 <div class="card">
   <div class="card-header">
-    <h3 style="text-align: center; font-size: 22px;"><a href="/map/{{rec_name}}">{{ rec_name }}</a>'s Call Records</h3>
+    <h3 style="text-align: center; font-size: 22px;"><a href="/map/{{encode64(rec_name)}}">{{ rec_name }}</a>'s Call Records</h3>
   </div>
   <div class="card-footer">
     <div class="row">
       <div class="col-12 col-sm-4 text-left">
         {% if old_date %}
-        <span><a class="btn btn-sm btn-primary" href="/map/{{rec_name}}/{{old_date}}">◀ {{ old_date }}</a></span>
+        <span><a class="btn btn-sm btn-primary" href="/map/{{encode64(rec_name)}}/{{encode64(old_date)}}">◀ {{ old_date }}</a></span>
         {%endif%}
       </div>
       <div class="col-12 col-sm-4 text-center my-auto">
@@ -20,7 +20,7 @@
       </div>
       <div class="col-12 col-sm-4 text-right">
         {% if next_date %}
-        <span><a class="btn btn-sm btn-primary" href="/map/{{rec_name}}/{{next_date}}">{{ next_date }} ▶</a></span>
+        <span><a class="btn btn-sm btn-primary" href="/map/{{encode64(rec_name)}}/{{encode64(next_date)}}">{{ next_date }} ▶</a></span>
         {%endif%}
       </div>
     </div>
@@ -44,7 +44,7 @@
             <img src="{% if i.call_type == 'IN' %}{{ url_for('static', filename='ic_in.png') }} {%else%}{{ url_for('static', filename='ic_out.png') }} {%endif%}" alt="out" style="height: 22px; width: 22px; margin-right: 10px;">
           </div>
           <div class="col-10 col-sm-11">
-            <audio class="w-100" src="{{ url_for('download_view', fl=i.file_name, name=rec_name, date=date) }}" controls></audio>
+            <audio class="w-100" src="{{ url_for('download_view', fl=encode64(i.file_name), name=encode64(rec_name), date=encode64(date)) }}" controls></audio>
           </div>
         </div>
       </div>
@@ -55,7 +55,7 @@
         <p class="m-0" style="font-weight: 500;">{{ i.call_number}}</p>
       </div>
       <div class="col-2 col-lg-1 m-auto p-2 text-center">
-        <a href="{{ url_for('download_view', fl=i.file_name, name=rec_name, date=date) }}" title="{{i.file_name}}"><img src="{{ url_for('static', filename='ic_download.png') }}" alt="Download" style="height: 20px; width: 20px;"></a>
+        <a href="{{ url_for('download_view', fl=encode64(i.file_name), name=encode64(rec_name), date=encode64(date)) }}" title="{{i.file_name}}"><img src="{{ url_for('static', filename='ic_download.png') }}" alt="Download" style="height: 20px; width: 20px;"></a>
       </div>
     </div>
   </div>
@@ -71,7 +71,7 @@
     <div class="row">
       <div class="col-12 col-sm-4 text-left">
         {% if old_date %}
-        <span><a class="btn btn-sm btn-primary" href="/map/{{rec_name}}/{{old_date}}">◀ {{ old_date }}</a></span>
+        <span><a class="btn btn-sm btn-primary" href="/map/{{encode64(rec_name)}}/{{encode64(old_date)}}">◀ {{ old_date }}</a></span>
         {%endif%}
       </div>
       <div class="col-12 col-sm-4 text-center my-auto">
@@ -79,12 +79,12 @@
       </div>
       <div class="col-12 col-sm-4 text-right">
         {% if next_date %}
-        <span><a class="btn btn-sm btn-primary" href="/map/{{rec_name}}/{{next_date}}">{{ next_date }} ▶</a></span>
+        <span><a class="btn btn-sm btn-primary" href="/map/{{encode64(rec_name)}}/{{encode64(next_date)}}">{{ next_date }} ▶</a></span>
         {%endif%}
       </div>
     </div>
     <hr>
-    <h3 style="text-align: center; font-size: 22px;"><a href="/map/{{ rec_name }}">{{ rec_name }}</a>'s Call Records</h3>
+    <h3 style="text-align: center; font-size: 22px;"><a href="/map/{{ encode64(rec_name) }}">{{ rec_name }}</a>'s Call Records</h3>
   </div>
 
 {% endif %}

@@ -57,7 +57,9 @@ def index_view():
 @app.route('/map/<rec_name>/<rec_date>')
 @login_required
 def map_go_view(rec_name, rec_date=None):
-    global appData
+    rec_name = decode64(rec_name)
+    rec_date = decode64(rec_date)
+
     rec_folder = appData.get('rec_folder')
     if not rec_name or not rec_name in get_folders(rec_folder):
         return redirect('/')
@@ -99,7 +101,7 @@ def filter_result_view(encoded_filter_data=None):
     rec_folder = appData.get('rec_folder')
 
     if request.method == 'POST':
-        rec_name = request.form.get('target')
+        rec_name = decode64(request.form.get('target'))
         call_type = request.form.get('call_type')
         date_start = request.form.get('date_start')
         date_end = request.form.get('date_end')
@@ -112,7 +114,7 @@ def filter_result_view(encoded_filter_data=None):
             return redirect(url_for('filter_view'))
 
         encoded_json_data = encode64(json.dumps(dict(
-            rec_name=rec_name,
+            rec_name=encode64(rec_name),
             call_type=call_type,
             date_start=date_start,
             date_end=date_end,
@@ -127,6 +129,8 @@ def filter_result_view(encoded_filter_data=None):
     if encoded_filter_data:
         try:
             filter_data = json.loads(decode64(encoded_filter_data))
+            if filter_data.get('rec_name'):
+                filter_data['rec_name'] = decode64(filter_data['rec_name'])
         except:
             filter_data = {}
 
@@ -174,7 +178,7 @@ def download_view():
     if not session.get('logged_in'):
         return Response(status=403)
     try:
-        fl, name, date = request.args.get('fl'), request.args.get('name'), request.args.get('date')
+        fl, name, date = decode64(request.args.get('fl')), decode64(request.args.get('name')), decode64(request.args.get('date'))
         if fl and name and date and is_valid_file(join(appData.get('rec_folder'), name, date, fl)):
             return send_from_directory(join(appData.get('rec_folder'), name, date), fl, as_attachment=True)
     except:
