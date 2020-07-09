@@ -5,8 +5,8 @@
 {% block content %} 
 
 <div class="card">
-  <div class="card-header" style="min-width: 300px;">
-    <h4 style="text-align: center;">{{ rec_name }}'s Call Records</h4>
+  <div class="card-header text-center">
+    <h4>{{ rec_name }}'s Call Records</h4>
   </div>
   <div class="card-body">
     {% if count == 0 %}
@@ -17,18 +17,14 @@
     {% else %}
     <div class="row">
     {% for i in all_dates%}
-      <div class="col-sm-4">
-        <p style="text-align: center;">
-          <a href="/map/{{rec_name}}/{{i}}" class="btn btn-primary p-2 text-black-50"><strong>{{i}}</strong></a>
-        </p>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3 text-center">
+        <a href="/map/{{rec_name}}/{{i}}" class="btn btn-info text-white">{{i}}</a>
       </div>
     {% endfor %}
     </div>
   </div>
-  <div class="card-footer">
-    <div class="d-flex justify-content-center links">
-      Select a date to see records
-    </div>
+  <div class="card-footer text-center">
+    Select a date to see records
   </div>
   {% endif %}
 </div>

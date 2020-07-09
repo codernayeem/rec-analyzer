@@ -2,54 +2,36 @@
 
 {% block Title %}Login | Rec Analyzer{% endblock %}
 
-{% block head %}
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
-{% endblock %}
-
 {% block content %}
 
-<div class="justify-content-center center">
-	<div class="card auth_card">
-	  <div class="card-header auth_card-header" style="min-width: 300px;">
-		<h3>Login</h3>
-	  </div>
-	  <div class="card-body">
-		<form method="POST">
-		  {% if error %}
-		  <div class="alert alert-danger alert-dismissible fade show">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        {{ error }}
-		  </div>
-      {% endif %}
-		  <div class="input-group form-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Password</span>
+<div class="position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
+  <div class="card" style="background-color: rgba(0, 123, 255, 0.71); min-width: 300px;">
+    <div class="card-header text-white">
+      <h4>Login</h4>
+    </div>
+    <div class="card-body">
+      <form method="POST">
+        {% if error %}
+        <div class="alert alert-danger alert-dismissible fade show">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          {{ error }}
         </div>
-        <input
-          id="password"
-          name="password"
-          maxlength="32"
-          type="password"
-          class="form-control"
-          placeholder="password"
-          required
-        />
-		  </div>
-		  <div class="form-group">
-			<button
-			  class="btn float-right login_btn"
-			  type="submit">
-			  Login
-			</button>
-		  </div>
-		</form>
-	  </div>
-	  <div class="card-footer">
-		<div class="d-flex justify-content-center links">
-		  <span>Don't have an account? <b>Ask to Admin!</b></span>
-		</div>
-	  </div>
-	</div>
+        {% endif %}
+        <div class="input-group form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text text-dark border-0 bg-warning">Password</span>
+          </div>
+          <input name="password" maxlength="32" type="password" class="form-control" placeholder="password" required/>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-warning float-right" type="submit">Login</button>
+        </div>
+      </form>
+    </div>
+    <div class="card-footer text-white text-center px-1">
+      <span>Don't have an account? <b>Ask to Admin!</b></span>
+    </div>
+  </div>
 </div>
 
 {% endblock %}

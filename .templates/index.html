@@ -6,8 +6,8 @@
 {% block content %}
 
 <div class="card">
-    <div class="card-header" style="min-width: 300px;">
-        <h4 style="text-align: center;">Select a name</h4>
+    <div class="card-header text-center">
+        <h4>Select a name</h4>
     </div>
     <div class="card-body">
         {% if count == 0 %}
@@ -18,18 +18,14 @@
         {% else %}
         <div class="row">
         {% for i in rec_names%}
-        <div class="col-sm-4">
-            <p style="text-align: center;">
-            <a href="/map/{{i}}" class="btn btn-primary p-2 text-black-50"><strong>{{i}}</strong></a>
-            </p>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3 text-center">
+          <a href="/map/{{i}}" class="btn btn-info text-black-50 font-weight-bold">{{i}}</a>
         </div>
         {% endfor %}
         </div>
     </div>
-    <div class="card-footer">
-        <div class="d-flex justify-content-center links">
+    <div class="card-footer text-center">
         Click a name to start Rec Analyzer
-        </div>
     </div>
     {% endif %}
 </div>
