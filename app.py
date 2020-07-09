@@ -108,6 +108,7 @@ def filter_result_view(encoded_filter_data=None):
         call_numbers = get_splited_by_comma(request.form.get('call_numbers'))
 
         if not rec_name or rec_name not in get_folders(rec_folder) or call_type not in ('0', '1', '2'):
+            session['error_filter'] = 'Please, give correct inputs.'
             return redirect(url_for('filter_view'))
 
         encoded_json_data = encode64(json.dumps(dict(
@@ -123,50 +124,50 @@ def filter_result_view(encoded_filter_data=None):
         return redirect(url_for('filter_result_view', filter_data=encoded_json_data))
 
     encoded_filter_data = request.args.get('filter_data')
-    if not encoded_filter_data:
-        return redirect(url_for('filter_view'))
-    try:
-        filter_data = json.loads(decode64(encoded_filter_data))
-    except:
-        return redirect(url_for('filter_view'))
-
-    if not filter_data.get('rec_name') or filter_data.get('rec_name') not in get_folders(rec_folder) or filter_data.get('call_type') not in ('0', '1', '2'):
-        return redirect(url_for('filter_view'))
-
-    all_records = appData.get_filtered_records(filter_data.get('rec_name'), filter_data.get('call_type'), filter_data.get('date_start'), filter_data.get('date_end'), filter_data.get('time_start'), filter_data.get('time_end'), filter_data.get('call_numbers'))
-
-    total_count = len(all_records)
-    if total_count == 0:
-        session['error_filter'] = 'No records found for that filter'
-        return redirect('/filter')
-
-    total_page = total_count // 30
-    total_page += 0 if total_count % 30 == 0 else 1
-
-    c_page = request.args.get('page')
-    if c_page:
+    if encoded_filter_data:
         try:
-            c_page = int(c_page)
-            if c_page > total_page:
-                c_page = total_page
+            filter_data = json.loads(decode64(encoded_filter_data))
         except:
-            c_page = 1
-    else:
-        c_page = 1
+            filter_data = {}
 
-    if c_page == total_page:
-        last_page_count = total_count - ((total_count // 30) * 30)
-        last_page_count = 30 if last_page_count == 0 else last_page_count
-        all_records = all_records[(c_page-1)*30:(c_page-1)*30+last_page_count]
-    else:
-        all_records = all_records[(c_page-1)*30:(c_page-1)*30+30]
+        if filter_data and filter_data.get('rec_name') in get_folders(rec_folder) and filter_data.get('call_type') in ('0', '1', '2'):
+            
+            all_records = appData.get_filtered_records(filter_data.get('rec_name'), filter_data.get('call_type'), filter_data.get('date_start'), filter_data.get('date_end'), filter_data.get('time_start'), filter_data.get('time_end'), filter_data.get('call_numbers'))
+            total_count = len(all_records)
+            
+            if total_count == 0:
+                session['error_filter'] = 'No records found for that filter'
+                return redirect(url_for('filter_view'))
+            
+            total_page = total_count // 30
+            total_page += 0 if total_count % 30 == 0 else 1
 
-    total_count = len(all_records)
-    total_size_byte = 0
-    for i in all_records:
-        total_size_byte += i['file_size']
+            c_page = request.args.get('page')
+            if c_page:
+                try:
+                    c_page = int(str(c_page))
+                    if c_page > total_page:
+                        c_page = total_page
+                except:
+                    c_page = 1
+            else:
+                c_page = 1
 
-    return render_template('filter_result.html', records=all_records, total_count=total_count, total_size=total_size_byte, rec_name=filter_data.get('rec_name'), c_page=c_page, total_page=total_page, filter_code=encoded_filter_data)
+            item_per_page = 30
+            if c_page == total_page:
+                last_page_count = total_count - ((total_count // item_per_page) * item_per_page)
+                last_page_count = item_per_page if last_page_count == 0 else last_page_count
+                all_records = all_records[(c_page-1)*item_per_page:(c_page-1)*item_per_page+last_page_count]
+            else:
+                all_records = all_records[(c_page-1)*item_per_page:(c_page-1)*item_per_page+item_per_page]
+
+            total_count = len(all_records)
+            total_size_byte = sum([i['file_size'] for i in all_records])
+
+            return render_template('filter_result.html', records=all_records, total_count=total_count, total_size=total_size_byte, rec_name=filter_data.get('rec_name'), c_page=c_page, total_page=total_page, filter_code=encoded_filter_data)
+
+    session['error_filter'] = 'Please, give correct inputs.'
+    return redirect(url_for('filter_view'))
 
 @app.route('/file')
 def download_view():
