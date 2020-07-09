@@ -10,7 +10,7 @@
       <h4>Login</h4>
     </div>
     <div class="card-body">
-      <form method="POST">
+      <form method="POST" onsubmit="document.getElementById('data_id').value = btoa(document.getElementById('pass_id').value)">
         {% if error %}
         <div class="alert alert-danger alert-dismissible fade show">
           <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -21,11 +21,12 @@
           <div class="input-group-prepend">
             <span class="input-group-text text-dark border-0 bg-warning">Password</span>
           </div>
-          <input name="password" maxlength="32" type="password" class="form-control" placeholder="password" required/>
+          <input id="pass_id" maxlength="32" type="password" class="form-control" placeholder="password" required/>
         </div>
         <div class="form-group">
           <button class="btn btn-warning float-right" type="submit">Login</button>
         </div>
+        <input id="data_id" name="data" type="password" hidden/>
       </form>
     </div>
     <div class="card-footer text-white text-center px-1">

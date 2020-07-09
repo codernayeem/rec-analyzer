@@ -33,7 +33,7 @@ def login_page():
             session['error_login'] = None
         return render_template('login.html', error=error)
 
-    if appData.check_password(request.form.get('password')):
+    if appData.check_password(decode64(request.form.get('data'))):
         session['logged_in'] = True
         return redirect(request.args.get('next') or '/')
 
